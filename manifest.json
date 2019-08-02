@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+  "name": "dmenu",
+  "description": "Tab search with dmenu",
+  "version": "0.1.0",
+  "permissions": [
+    "tabs"
+  ],
+  "commands": {
+    "tab-search": {
+      "description": "Tab search",
+      "suggested_key": {
+        "default": "Ctrl+Q"
+      }
+    }
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
+  },
+  "icons": {
+    "16": "build/chrome.png",
+    "48": "build/chrome.png",
+    "128": "build/chrome.png"
+  }
+}

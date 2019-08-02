@@ -1,0 +1,13 @@
+#!/bin/sh
+
+fetch() {
+  case $# in
+    1) curl --location --remote-name $1 ;;
+    2) curl --location $1 --output $2 ;;
+  esac
+}
+
+mkdir -p packages
+cd packages
+
+fetch 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Chrome_icon_(September_2014).svg' chrome.svg
