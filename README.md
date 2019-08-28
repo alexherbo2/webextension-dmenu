@@ -13,6 +13,12 @@
 
 ## Installation
 
+### Installing from the Chrome Web Store
+
+https://chrome.google.com/webstore/detail/dmenu/gonendiemfggilnopogmkafgadobkoeh
+
+### Installing from the source
+
 ``` sh
 make
 ```
@@ -30,7 +36,7 @@ Press <kbd>Control</kbd> + <kbd>q</kbd> to tab search with [dmenu].
 ### Cross-extension messaging
 
 ``` javascript
-const port = chrome.runtime.connect('<extension-id>')
+const port = chrome.runtime.connect('gonendiemfggilnopogmkafgadobkoeh')
 port.postMessage({ command: 'tab-search' })
 ```
 
