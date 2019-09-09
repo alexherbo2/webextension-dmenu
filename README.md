@@ -2,6 +2,8 @@
 
 > Tab search with [dmenu].
 
+[![Tab search with dmenu](https://img.youtube.com/vi_webp/tgrmss3u2aE/maxresdefault.webp)](https://youtu.be/tgrmss3u2aE)
+
 ## Dependencies
 
 - [Rofi] ([dmenu] replacement)
