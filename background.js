@@ -1,8 +1,21 @@
+// Environment variables ───────────────────────────────────────────────────────
+
+switch (true) {
+  case (typeof browser !== 'undefined'):
+    var PLATFORM = 'firefox'
+    var SHELL_EXTENSION_ID = 'shell@alexherbo2.github.com'
+    break
+  case (typeof chrome !== 'undefined'):
+    var PLATFORM = 'chrome'
+    var SHELL_EXTENSION_ID = 'ohgecdnlcckpfnhjepfdcdgcfgebkdgl'
+    break
+}
+
 // Extensions ──────────────────────────────────────────────────────────────────
 
 // Shell
 const shell = {}
-shell.port = chrome.runtime.connect('ohgecdnlcckpfnhjepfdcdgcfgebkdgl')
+shell.port = chrome.runtime.connect(SHELL_EXTENSION_ID)
 
 // Requests ────────────────────────────────────────────────────────────────────
 

@@ -1,5 +1,4 @@
 {
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhTEuT+lzy1gGMzShg7s7xadSUZdkoQh/L8c0L1hDdhDjQuB1kuCOKgExlmCAmuniea0/ZrnrnbQL154ea0HU/yWFp2ru0LmVX9ZgflVl8kQOgsb3qUz84/CkG+AyTgpqkDSuIVhb5eiAD1OW6vDCHtbda5C5/trMV3VUtItiOih4NXrUxDjw1A6ib1Fmy4DprmWJ54wI0uVrNMz7dX7+voNHwu+d7C/3EAZ7Q/8edqqHTvYXvt/5aEI85sY/z5nl1ZUVqZRlsAjuRL2j4tjDrEqcgi/pU61tzw3QvIlbwndL99/++sbrhi/sd0N2povs3JMw+tQt+sIeNMxaEZbRLQIDAQAB",
   "manifest_version": 2,
   "name": "dmenu",
   "description": "Tab search with dmenu",
