@@ -21,8 +21,8 @@
     "persistent": false
   },
   "icons": {
-    "16": "packages/chrome.png",
-    "48": "packages/chrome.png",
-    "128": "packages/chrome.png"
+    "16": "packages/suckless.png",
+    "48": "packages/suckless.png",
+    "128": "packages/suckless.png"
   }
 }

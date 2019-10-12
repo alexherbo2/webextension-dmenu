@@ -8,7 +8,7 @@ firefox: fetch
 
 chrome-web-store: fetch
 	mkdir -p build/chrome-web-store
-	inkscape --without-gui packages/chrome.svg --export-png build/chrome-web-store/icon.png --export-width 128 --export-height 128
+	inkscape --without-gui packages/suckless.svg --export-png build/chrome-web-store/icon.png --export-width 128 --export-height 128
 
 fetch:
 	./fetch
