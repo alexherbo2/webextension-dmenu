@@ -65,7 +65,7 @@ const port = chrome.runtime.connect('dmenu@alexherbo2.github.com') // for a Fire
 port.postMessage({ command: 'tab-search' })
 ```
 
-More examples can be found [here][Create a keyboard interface to the web].
+More examples can be found at [Krabby].
 
 See [Cross-extension messaging] for more details.
 
@@ -107,4 +107,5 @@ Open `about:addons` ❯ _Extensions_ and click _Manage extension shortcuts_ in t
 
 [Firefox – Your first extension]: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension
 
+[Krabby]: https://krabby.netlify.com
 [Create a keyboard interface to the web]: https://alexherbo2.github.io/blog/chrome/create-a-keyboard-interface-to-the-web/
