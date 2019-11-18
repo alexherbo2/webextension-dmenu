@@ -85,6 +85,10 @@ Open `about:addons` ❯ _Extensions_ and click _Manage extension shortcuts_ in t
 
 - `tab-search` (<kbd>Control</kbd> + <kbd>q</kbd>)
 
+## References
+
+- [Create a keyboard interface to the web]
+
 [Chrome]: https://google.com/chrome/
 [Chrome Web Store]: https://chrome.google.com/webstore
 
