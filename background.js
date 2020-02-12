@@ -1,3 +1,11 @@
+// Command ─────────────────────────────────────────────────────────────────────
+
+// Pipe tabs through the given external filter program.
+const DMENU = {
+  command: 'rofi',
+  arguments: ['-dmenu', '-i', '-p', 'Tab search']
+}
+
 // Environment variables ───────────────────────────────────────────────────────
 
 switch (true) {
@@ -26,8 +34,8 @@ requests['tab-search'] = () => {
     const input = tabs.map((tab) => `${tab.id} ${tab.title} ${tab.url}`).join('\n')
     shell.port.postMessage({
       id: 'tab-search',
-      command: 'rofi',
-      arguments: ['-dmenu', '-i', '-p', 'Tab search'],
+      command: DMENU.command,
+      arguments: DMENU.arguments,
       input
     })
   })
