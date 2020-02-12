@@ -29,6 +29,11 @@ shell.port = chrome.runtime.connect(SHELL_EXTENSION_ID)
 
 const requests = {}
 
+requests['set-dmenu'] = ({ command, arguments = [] }) => {
+  DMENU.command = command
+  DMENU.arguments = arguments
+}
+
 requests['tab-search'] = () => {
   chrome.tabs.query({}, (tabs) => {
     const input = tabs.map((tab) => `${tab.id} ${tab.title} ${tab.url}`).join('\n')

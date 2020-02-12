@@ -62,6 +62,13 @@ Press <kbd>Control</kbd> + <kbd>q</kbd> to tab search with [dmenu].
 ``` javascript
 const port = chrome.runtime.connect('gonendiemfggilnopogmkafgadobkoeh') // for a Chrome extension
 const port = chrome.runtime.connect('dmenu@alexherbo2.github.com') // for a Firefox extension
+port.postMessage({
+  command: 'set-dmenu',
+  arguments: {
+    command: 'dmenu',
+    arguments: ['-i', '-p', 'Tab search']
+  }
+})
 port.postMessage({ command: 'tab-search' })
 ```
 
@@ -83,6 +90,9 @@ Open `about:addons` ❯ _Extensions_ and click _Manage extension shortcuts_ in t
 
 ## Commands
 
+- `set-dmenu`
+  - `command`
+  - `arguments`
 - `tab-search` (<kbd>Control</kbd> + <kbd>q</kbd>)
 
 ## References
