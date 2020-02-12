@@ -2,13 +2,13 @@
 
 ###### [Chrome](#chrome) | [Firefox](#firefox)
 
-> Tab search with [dmenu].
+> Tab search with a [dmenu] filter program.
 
 [![Tab search with dmenu](https://img.youtube.com/vi_webp/tgrmss3u2aE/maxresdefault.webp)](https://youtu.be/tgrmss3u2aE)
 
 ## Dependencies
 
-- [Rofi] ([dmenu] replacement)
+- [Rofi] (Optional, [dmenu] replacement)
 - [Zip] (Zip is used to package the extension)
 - [Inkscape] (Inkscape is used to convert SVG to PNG when uploading the extension)
 
