@@ -66,7 +66,7 @@ port.postMessage({
   command: 'set-dmenu',
   arguments: {
     command: 'dmenu',
-    arguments: ['-i', '-p', 'Tab search']
+    arguments: ['-l', '20', '-i', '-p', 'Tab search']
   }
 })
 port.postMessage({ command: 'tab-search' })
