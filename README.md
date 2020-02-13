@@ -82,6 +82,33 @@ dmenu.send = (command, ...arguments) => {
 }
 ```
 
+**Example** – Run with [fzf] and [Alacritty]:
+
+``` javascript
+dmenu.send('set-dmenu', {
+  command: 'sh',
+  arguments: [
+    '-c',
+    `
+      # Create IO files
+      state=$(mktemp -d)
+      input=$state/input
+      output=$state/output
+      trap 'rm -Rf "$state"' EXIT
+      # Get input from /dev/stdin
+      cat > "$input"
+      # Run fzf with Alacritty
+      alacritty --command sh -c 'fzf < "$1" > "$2"' -- "$input" "$output"
+      # Write output to /dev/stdout
+      cat "$output"
+    `
+  ]
+})
+```
+
+[fzf]: https://github.com/junegunn/fzf
+[Alacritty]: https://github.com/alacritty/alacritty
+
 More examples can be found at [Krabby].
 
 See [Cross-extension messaging] for more details.
