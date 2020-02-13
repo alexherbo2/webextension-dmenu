@@ -72,6 +72,16 @@ port.postMessage({
 port.postMessage({ command: 'tab-search' })
 ```
 
+**Example** – Basics:
+
+``` javascript
+const dmenu = {}
+dmenu.port = chrome.runtime.connect(DMENU_EXTENSION_ID)
+dmenu.send = (command, ...arguments) => {
+  dmenu.port.postMessage({ command, arguments })
+}
+```
+
 More examples can be found at [Krabby].
 
 See [Cross-extension messaging] for more details.
