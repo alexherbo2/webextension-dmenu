@@ -8,7 +8,7 @@
 
 ## Dependencies
 
-- [Rofi] (Optional, [dmenu] replacement)
+- [dmenu] (Optional)
 - [Zip] (Zip is used to package the extension)
 - [Inkscape] (Inkscape is used to convert SVG to PNG when uploading the extension)
 
@@ -143,7 +143,6 @@ Open `about:addons` ❯ _Extensions_ and click _Manage extension shortcuts_ in t
 [Firefox Add-ons]: https://addons.mozilla.org
 
 [dmenu]: https://tools.suckless.org/dmenu/
-[Rofi]: https://github.com/davatorium/rofi
 [Zip]: http://infozip.sourceforge.net/Zip.html
 [Inkscape]: https://inkscape.org
 

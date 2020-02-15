@@ -2,8 +2,8 @@
 
 // Pipe tabs through the given external filter program.
 const DMENU = {
-  command: 'rofi',
-  arguments: ['-dmenu', '-i', '-p', 'Tab search']
+  command: 'dmenu',
+  arguments: ['-l', '20', '-i', '-p', 'Tab search']
 }
 
 // Environment variables ───────────────────────────────────────────────────────
