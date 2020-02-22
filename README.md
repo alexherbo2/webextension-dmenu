@@ -98,7 +98,7 @@ dmenu.send('set-dmenu', {
       # Get input from /dev/stdin
       cat > "$input"
       # Run fzf with Alacritty
-      alacritty --command sh -c 'fzf < "$1" > "$2"' -- "$input" "$output"
+      alacritty --class 'Alacritty · Floating' --command sh -c 'fzf < "$1" > "$2"' -- "$input" "$output"
       # Write output to /dev/stdout
       cat "$output"
     `
