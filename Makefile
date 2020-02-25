@@ -1,19 +1,19 @@
 all: chrome firefox
 
 chrome: fetch
-	./scripts/build-target chrome
+	scripts/build-target chrome
 
 firefox: fetch
-	./scripts/build-target firefox
+	scripts/build-target firefox
 
-chrome-web-store: fetch
-	mkdir -p build/chrome-web-store
-	inkscape --without-gui packages/suckless.svg --export-png build/chrome-web-store/icon.png --export-width 128 --export-height 128
+icons: fetch
+	mkdir -p build
+	inkscape --without-gui packages/suckless.svg --export-png build/suckless.png --export-width 128 --export-height 128
 
 fetch:
-	./fetch
+	scripts/fetch
 
 clean:
 	rm -Rf build packages target
 
-.PHONY: build fetch
+.PHONY: build

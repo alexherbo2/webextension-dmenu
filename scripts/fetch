@@ -2,8 +2,8 @@
 
 fetch() {
   case $# in
-    1) curl --location --remote-name $1 ;;
-    2) curl --location $1 --output $2 ;;
+    1) curl --location --remote-name "$1" ;;
+    2) curl --location "$1" --output "$2" ;;
   esac
 }
 

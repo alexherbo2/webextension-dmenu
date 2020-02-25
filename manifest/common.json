@@ -1,22 +1,31 @@
 {
   "manifest_version": 2,
   "name": "dmenu",
-  "description": "Tab search with dmenu",
+  "description": "Tab search with a dmenu filter program",
   "version": "0.1.0",
   "permissions": [
-    "tabs"
+    "tabs",
+    "storage"
   ],
   "commands": {
     "tab-search": {
       "description": "Tab search",
       "suggested_key": {
-        "default": "Ctrl+Q"
+        "default": "Ctrl+Q",
+        "mac": "Command+Q"
       }
     }
   },
+  "browser_action": {
+    "default_popup": "src/pages/options/index.html"
+  },
+  "options_ui": {
+    "page": "src/pages/options/index.html",
+    "open_in_tab": false
+  },
   "background": {
     "scripts": [
-      "background.js"
+      "src/background.js"
     ],
     "persistent": false
   },

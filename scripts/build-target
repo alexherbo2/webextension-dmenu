@@ -8,7 +8,7 @@ for platform do
   target=$PWD/target/$platform
   printf "${green}Building${none}: %s\n" "$target"
   mkdir -p "$target"
-  cp -R background.js packages "$target"
+  cp -R src packages "$target"
   jq 'add' --slurp manifest/common.json "manifest/$platform.json" > "$target/manifest.json"
-  (cd "$target"; zip --recurse-paths package.zip manifest.json background.js packages)
+  (cd "$target"; zip --recurse-paths package.zip manifest.json src packages)
 done
