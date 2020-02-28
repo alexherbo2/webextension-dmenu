@@ -101,6 +101,8 @@ commands['bring-tab'] = () => {
       }
       chrome.tabs.get(targetTabId, (targetTab) => {
         chrome.tabs.query({ currentWindow: true, active: true }, ([currentTab]) => {
+          // Handle pinned tabs
+          chrome.tabs.update(targetTab.id, { pinned: currentTab.pinned })
           const rightTabIndex =
             targetTab.windowId === currentTab.windowId &&
             targetTab.index < currentTab.index
