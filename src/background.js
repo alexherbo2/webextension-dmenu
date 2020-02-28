@@ -39,6 +39,17 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
   }
 })
 
+// dmenu ───────────────────────────────────────────────────────────────────────
+
+const getTabMenu = () => {
+  return new Promise((resolve, reject) => {
+    chrome.tabs.query({}, (tabs) => {
+      const menu = tabs.map((tab) => `${tab.id} ${tab.title} ${tab.url}`).join('\n')
+      resolve(menu)
+    })
+  })
+}
+
 // Commands ────────────────────────────────────────────────────────────────────
 
 // Keyboard shortcuts
@@ -55,61 +66,57 @@ chrome.commands.onCommand.addListener((name) => {
 const commands = {}
 
 // Tab search
-commands['tab-search'] = () => {
-  chrome.tabs.query({}, (tabs) => {
-    const menu = tabs.map((tab) => `${tab.id} ${tab.title} ${tab.url}`).join('\n')
-    shell.port.postMessage({
-      id: 'tab-search',
-      input: menu,
-      command: settings.dmenu.command,
-      arguments: settings.dmenu.arguments
-    })
-    shell.port.onMessage.addListener((response) => {
-      if (response.id !== 'tab-search') {
-        return
-      }
-      const tabId = parseInt(response.output)
-      if (! tabId) {
-        return
-      }
-      // Does not affect whether the window is focused
-      chrome.tabs.update(tabId, { active: true })
-      chrome.tabs.get(tabId, (tab) => {
-        chrome.windows.update(tab.windowId, { focused: true })
-      })
+commands['tab-search'] = async () => {
+  const menu = await getTabMenu()
+  shell.port.postMessage({
+    id: 'tab-search',
+    input: menu,
+    command: settings.dmenu.command,
+    arguments: settings.dmenu.arguments
+  })
+  shell.port.onMessage.addListener((response) => {
+    if (response.id !== 'tab-search') {
+      return
+    }
+    const tabId = parseInt(response.output)
+    if (! tabId) {
+      return
+    }
+    // Does not affect whether the window is focused
+    chrome.tabs.update(tabId, { active: true })
+    chrome.tabs.get(tabId, (tab) => {
+      chrome.windows.update(tab.windowId, { focused: true })
     })
   })
 }
 
 // Bring tab
-commands['bring-tab'] = () => {
-  chrome.tabs.query({}, (tabs) => {
-    const menu = tabs.map((tab) => `${tab.id} ${tab.title} ${tab.url}`).join('\n')
-    shell.port.postMessage({
-      id: 'bring-tab',
-      input: menu,
-      command: settings.dmenu.command,
-      arguments: settings.dmenu.arguments
-    })
-    shell.port.onMessage.addListener((response) => {
-      if (response.id !== 'bring-tab') {
-        return
-      }
-      const targetTabId = parseInt(response.output)
-      if (! targetTabId) {
-        return
-      }
-      chrome.tabs.get(targetTabId, (targetTab) => {
-        chrome.tabs.query({ currentWindow: true, active: true }, ([currentTab]) => {
-          // Handle pinned tabs
-          chrome.tabs.update(targetTab.id, { pinned: currentTab.pinned })
-          const rightTabIndex =
-            targetTab.windowId === currentTab.windowId &&
-            targetTab.index < currentTab.index
-              ? currentTab.index
-              : currentTab.index + 1
-          chrome.tabs.move(targetTab.id, { windowId: currentTab.windowId, index: rightTabIndex })
-        })
+commands['bring-tab'] = async () => {
+  const menu = await getTabMenu()
+  shell.port.postMessage({
+    id: 'bring-tab',
+    input: menu,
+    command: settings.dmenu.command,
+    arguments: settings.dmenu.arguments
+  })
+  shell.port.onMessage.addListener((response) => {
+    if (response.id !== 'bring-tab') {
+      return
+    }
+    const targetTabId = parseInt(response.output)
+    if (! targetTabId) {
+      return
+    }
+    chrome.tabs.get(targetTabId, (targetTab) => {
+      chrome.tabs.query({ currentWindow: true, active: true }, ([currentTab]) => {
+        // Handle pinned tabs
+        chrome.tabs.update(targetTab.id, { pinned: currentTab.pinned })
+        const rightTabIndex =
+          targetTab.windowId === currentTab.windowId &&
+          targetTab.index < currentTab.index
+            ? currentTab.index
+            : currentTab.index + 1
+        chrome.tabs.move(targetTab.id, { windowId: currentTab.windowId, index: rightTabIndex })
       })
     })
   })
