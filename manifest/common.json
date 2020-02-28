@@ -14,6 +14,13 @@
         "default": "Ctrl+Q",
         "mac": "Command+Q"
       }
+    },
+    "bring-tab": {
+      "description": "Bring tab",
+      "suggested_key": {
+        "default": "Ctrl+Shift+Q",
+        "mac": "Command+Shift+Q"
+      }
     }
   },
   "browser_action": {

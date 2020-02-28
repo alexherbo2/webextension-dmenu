@@ -54,7 +54,8 @@ Open `about:addons` ❯ _Extensions_ and click _Manage extension shortcuts_ in t
 
 ## Usage
 
-Press <kbd>Control</kbd> + <kbd>q</kbd> to tab search with [dmenu].
+- Press <kbd>Control</kbd> + <kbd>q</kbd> to tab search with [dmenu].
+- Press <kbd>Control</kbd> + <kbd>Q</kbd> to bring a tab.
 
 ## Commands
 
@@ -62,6 +63,11 @@ Press <kbd>Control</kbd> + <kbd>q</kbd> to tab search with [dmenu].
 
 Tab search.
 Default: <kbd>Control</kbd> + <kbd>q</kbd>.
+
+###### `bring-tab`
+
+Bring tab.
+Default: <kbd>Control</kbd> + <kbd>Q</kbd>.
 
 ## Options
 

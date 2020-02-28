@@ -65,6 +65,9 @@ commands['tab-search'] = () => {
       arguments: settings.dmenu.arguments
     })
     shell.port.onMessage.addListener((response) => {
+      if (response.id !== 'tab-search') {
+        return
+      }
       const tabId = parseInt(response.output)
       if (! tabId) {
         return
@@ -73,6 +76,38 @@ commands['tab-search'] = () => {
       chrome.tabs.update(tabId, { active: true })
       chrome.tabs.get(tabId, (tab) => {
         chrome.windows.update(tab.windowId, { focused: true })
+      })
+    })
+  })
+}
+
+// Bring tab
+commands['bring-tab'] = () => {
+  chrome.tabs.query({}, (tabs) => {
+    const menu = tabs.map((tab) => `${tab.id} ${tab.title} ${tab.url}`).join('\n')
+    shell.port.postMessage({
+      id: 'bring-tab',
+      input: menu,
+      command: settings.dmenu.command,
+      arguments: settings.dmenu.arguments
+    })
+    shell.port.onMessage.addListener((response) => {
+      if (response.id !== 'bring-tab') {
+        return
+      }
+      const targetTabId = parseInt(response.output)
+      if (! targetTabId) {
+        return
+      }
+      chrome.tabs.get(targetTabId, (targetTab) => {
+        chrome.tabs.query({ currentWindow: true, active: true }, ([currentTab]) => {
+          const rightTabIndex =
+            targetTab.windowId === currentTab.windowId &&
+            targetTab.index < currentTab.index
+              ? currentTab.index
+              : currentTab.index + 1
+          chrome.tabs.move(targetTab.id, { windowId: currentTab.windowId, index: rightTabIndex })
+        })
       })
     })
   })
@@ -113,3 +148,4 @@ external.requests['set'] = (items) => {
 
 // Forward to commands
 external.requests['tab-search'] = commands['tab-search']
+external.requests['bring-tab'] = commands['bring-tab']
