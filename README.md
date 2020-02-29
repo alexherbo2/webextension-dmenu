@@ -102,6 +102,10 @@ Default:
       alacritty --class 'Alacritty · Floating' --command sh -c 'fzf < \"$1\" > \"$2\"' -- \"$input\" \"$output\"
       # Write output to /dev/stdout
       cat \"$output\"
+      # Exit code
+      if test ! -s \"$output\"; then
+        exit 1
+      fi
     "
   ]
 }
