@@ -46,7 +46,7 @@ const getTabMenu = () => {
     chrome.tabs.query({}, (tabs) => {
       const menu = {}
       for (const tab of tabs) {
-        const key = `${tab.id} ${tab.title} ${tab.url}`
+        const key = `${tab.title} ${tab.url} ${tab.id}`
         menu[key] = tab
       }
       resolve(menu)
@@ -61,7 +61,7 @@ const getBookmarkMenu = () => {
     for (const bookmark of bookmarks) {
       const bookmarks = bookmark.leaves()
       for (const bookmark of bookmarks) {
-        const key = `${bookmark.id} ${bookmark.content.title} ${bookmark.content.url}`
+        const key = `${bookmark.content.title} ${bookmark.content.url}`
         menu[key] = bookmark
       }
     }
@@ -74,7 +74,7 @@ const getHistoryMenu = () => {
     chrome.history.search({ text: '' }, (history) => {
       const menu = {}
       for (const item of history) {
-        const key = `${item.id} ${item.title} ${item.url}`
+        const key = `${item.title} ${item.url}`
         menu[key] = item
       }
       resolve(menu)
