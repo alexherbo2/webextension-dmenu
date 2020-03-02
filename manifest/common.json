@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "permissions": [
     "tabs",
+    "bookmarks",
     "storage"
   ],
   "commands": {
@@ -21,6 +22,12 @@
         "default": "Ctrl+Shift+Q",
         "mac": "Command+Shift+Q"
       }
+    },
+    "open-bookmark": {
+      "description": "Open bookmark",
+      "suggested_key": {
+        "default": "Alt+Q"
+      }
     }
   },
   "browser_action": {
@@ -32,6 +39,7 @@
   },
   "background": {
     "scripts": [
+      "packages/node.js",
       "src/background.js"
     ],
     "persistent": false

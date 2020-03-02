@@ -50,6 +50,37 @@ const getTabMenu = () => {
   })
 }
 
+const getBookmarkMenu = () => {
+  return new Promise(async (resolve, reject) => {
+    const bookmarks = await getBookmarks()
+    const menu = bookmarks.reduce((menu, bookmark) => {
+      const entries = bookmark.leaves().map((bookmark) => `${bookmark.id} ${bookmark.content.title} ${bookmark.content.url}`)
+      return menu.concat(entries)
+    }, []).join('\n')
+    resolve(menu)
+  })
+}
+
+// Bookmarks ───────────────────────────────────────────────────────────────────
+
+const getBookmarks = () => {
+  return new Promise((resolve, reject) => {
+    chrome.bookmarks.getTree((bookmarks) => {
+      bookmarks = bookmarks.map((bookmark) => {
+        return Node.parse(bookmark, (bookmark) => ({
+          id: bookmark.id,
+          content: {
+            url: bookmark.url,
+            title: bookmark.title
+          },
+          nodes: bookmark.children || []
+        }))
+      })
+      resolve(bookmarks)
+    })
+  })
+}
+
 // Commands ────────────────────────────────────────────────────────────────────
 
 // Keyboard shortcuts
@@ -122,6 +153,29 @@ commands['bring-tab'] = async () => {
   })
 }
 
+// Open bookmark
+commands['open-bookmark'] = async () => {
+  const menu = await getBookmarkMenu()
+  shell.port.postMessage({
+    id: 'open-bookmark',
+    input: menu,
+    command: settings.dmenu.command,
+    arguments: settings.dmenu.arguments
+  })
+  shell.port.onMessage.addListener((response) => {
+    if (response.id !== 'open-bookmark') {
+      return
+    }
+    const [bookmarkId] = response.output.match(/^\d+/)
+    if (! bookmarkId) {
+      return
+    }
+    chrome.bookmarks.get(bookmarkId, ([bookmark]) => {
+      chrome.tabs.update(undefined, { url: bookmark.url })
+    })
+  })
+}
+
 // External ────────────────────────────────────────────────────────────────────
 
 // Cross-extension messaging
@@ -158,3 +212,4 @@ external.requests['set'] = (items) => {
 // Forward to commands
 external.requests['tab-search'] = commands['tab-search']
 external.requests['bring-tab'] = commands['bring-tab']
+external.requests['open-bookmark'] = commands['open-bookmark']
