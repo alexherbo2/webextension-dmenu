@@ -57,6 +57,7 @@ Open `about:addons` ❯ _Extensions_ and click _Manage extension shortcuts_ in t
 - Press <kbd>Control</kbd> + <kbd>q</kbd> to tab search with [dmenu].
 - Press <kbd>Control</kbd> + <kbd>Q</kbd> to bring a tab.
 - Press <kbd>Alt</kbd> + <kbd>q</kbd> to open a bookmark.
+- Press <kbd>Alt</kbd> + <kbd>Q</kbd> to search history.
 
 ## Commands
 
@@ -74,6 +75,11 @@ Default: <kbd>Control</kbd> + <kbd>Q</kbd>.
 
 Open bookmark.
 Default: <kbd>Alt</kbd> + <kbd>q</kbd>.
+
+###### `search-history`
+
+Search history.
+Default: <kbd>Alt</kbd> + <kbd>Q</kbd>.
 
 ## Options
 

@@ -6,6 +6,7 @@
   "permissions": [
     "tabs",
     "bookmarks",
+    "history",
     "storage"
   ],
   "commands": {
@@ -27,6 +28,12 @@
       "description": "Open bookmark",
       "suggested_key": {
         "default": "Alt+Q"
+      }
+    },
+    "search-history": {
+      "description": "Search history",
+      "suggested_key": {
+        "default": "Alt+Shift+Q"
       }
     }
   },

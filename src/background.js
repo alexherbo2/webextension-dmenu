@@ -69,6 +69,19 @@ const getBookmarkMenu = () => {
   })
 }
 
+const getHistoryMenu = () => {
+  return new Promise((resolve, reject) => {
+    chrome.history.search({ text: '' }, (history) => {
+      const menu = {}
+      for (const item of history) {
+        const key = `${item.id} ${item.title} ${item.url}`
+        menu[key] = item
+      }
+      resolve(menu)
+    })
+  })
+}
+
 // Bookmarks ───────────────────────────────────────────────────────────────────
 
 const getBookmarks = () => {
@@ -184,6 +197,29 @@ commands['open-bookmark'] = async () => {
   })
 }
 
+// Search history
+commands['search-history'] = async () => {
+  const menu = await getHistoryMenu()
+  const input = Object.keys(menu).join('\n')
+  shell.port.postMessage({
+    id: 'search-history',
+    input,
+    command: settings.dmenu.command,
+    arguments: settings.dmenu.arguments
+  })
+  shell.port.onMessage.addListener((response) => {
+    if (response.id !== 'search-history') {
+      return
+    }
+    const key = response.output.replace(/\n$/, '')
+    const historyItem = menu[key]
+    if (! historyItem) {
+      return
+    }
+    chrome.tabs.update(undefined, { url: historyItem.url })
+  })
+}
+
 // External ────────────────────────────────────────────────────────────────────
 
 // Cross-extension messaging
@@ -221,3 +257,4 @@ external.requests['set'] = (items) => {
 external.requests['tab-search'] = commands['tab-search']
 external.requests['bring-tab'] = commands['bring-tab']
 external.requests['open-bookmark'] = commands['open-bookmark']
+external.requests['search-history'] = commands['search-history']
