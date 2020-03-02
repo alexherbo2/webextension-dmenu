@@ -44,7 +44,11 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 const getTabMenu = () => {
   return new Promise((resolve, reject) => {
     chrome.tabs.query({}, (tabs) => {
-      const menu = tabs.map((tab) => `${tab.id} ${tab.title} ${tab.url}`).join('\n')
+      const menu = {}
+      for (const tab of tabs) {
+        const key = `${tab.id} ${tab.title} ${tab.url}`
+        menu[key] = tab
+      }
       resolve(menu)
     })
   })
@@ -53,10 +57,14 @@ const getTabMenu = () => {
 const getBookmarkMenu = () => {
   return new Promise(async (resolve, reject) => {
     const bookmarks = await getBookmarks()
-    const menu = bookmarks.reduce((menu, bookmark) => {
-      const entries = bookmark.leaves().map((bookmark) => `${bookmark.id} ${bookmark.content.title} ${bookmark.content.url}`)
-      return menu.concat(entries)
-    }, []).join('\n')
+    const menu = {}
+    for (const bookmark of bookmarks) {
+      const bookmarks = bookmark.leaves()
+      for (const bookmark of bookmarks) {
+        const key = `${bookmark.id} ${bookmark.content.title} ${bookmark.content.url}`
+        menu[key] = bookmark
+      }
+    }
     resolve(menu)
   })
 }
@@ -99,9 +107,10 @@ const commands = {}
 // Tab search
 commands['tab-search'] = async () => {
   const menu = await getTabMenu()
+  const input = Object.keys(menu).join('\n')
   shell.port.postMessage({
     id: 'tab-search',
-    input: menu,
+    input,
     command: settings.dmenu.command,
     arguments: settings.dmenu.arguments
   })
@@ -109,24 +118,24 @@ commands['tab-search'] = async () => {
     if (response.id !== 'tab-search') {
       return
     }
-    const tabId = parseInt(response.output)
-    if (! tabId) {
+    const key = response.output.replace(/\n$/, '')
+    const tab = menu[key]
+    if (! tab) {
       return
     }
     // Does not affect whether the window is focused
-    chrome.tabs.update(tabId, { active: true })
-    chrome.tabs.get(tabId, (tab) => {
-      chrome.windows.update(tab.windowId, { focused: true })
-    })
+    chrome.tabs.update(tab.id, { active: true })
+    chrome.windows.update(tab.windowId, { focused: true })
   })
 }
 
 // Bring tab
 commands['bring-tab'] = async () => {
   const menu = await getTabMenu()
+  const input = Object.keys(menu).join('\n')
   shell.port.postMessage({
     id: 'bring-tab',
-    input: menu,
+    input,
     command: settings.dmenu.command,
     arguments: settings.dmenu.arguments
   })
@@ -134,21 +143,20 @@ commands['bring-tab'] = async () => {
     if (response.id !== 'bring-tab') {
       return
     }
-    const targetTabId = parseInt(response.output)
-    if (! targetTabId) {
+    const key = response.output.replace(/\n$/, '')
+    const targetTab = menu[key]
+    if (! targetTab) {
       return
     }
-    chrome.tabs.get(targetTabId, (targetTab) => {
-      chrome.tabs.query({ currentWindow: true, active: true }, ([currentTab]) => {
-        // Handle pinned tabs
-        chrome.tabs.update(targetTab.id, { pinned: currentTab.pinned })
-        const rightTabIndex =
-          targetTab.windowId === currentTab.windowId &&
-          targetTab.index < currentTab.index
-            ? currentTab.index
-            : currentTab.index + 1
-        chrome.tabs.move(targetTab.id, { windowId: currentTab.windowId, index: rightTabIndex })
-      })
+    chrome.tabs.query({ currentWindow: true, active: true }, ([currentTab]) => {
+      // Handle pinned tabs
+      chrome.tabs.update(targetTab.id, { pinned: currentTab.pinned })
+      const rightTabIndex =
+        targetTab.windowId === currentTab.windowId &&
+        targetTab.index < currentTab.index
+          ? currentTab.index
+          : currentTab.index + 1
+      chrome.tabs.move(targetTab.id, { windowId: currentTab.windowId, index: rightTabIndex })
     })
   })
 }
@@ -156,9 +164,10 @@ commands['bring-tab'] = async () => {
 // Open bookmark
 commands['open-bookmark'] = async () => {
   const menu = await getBookmarkMenu()
+  const input = Object.keys(menu).join('\n')
   shell.port.postMessage({
     id: 'open-bookmark',
-    input: menu,
+    input,
     command: settings.dmenu.command,
     arguments: settings.dmenu.arguments
   })
@@ -166,13 +175,12 @@ commands['open-bookmark'] = async () => {
     if (response.id !== 'open-bookmark') {
       return
     }
-    const [bookmarkId] = response.output.match(/^\d+/)
-    if (! bookmarkId) {
+    const key = response.output.replace(/\n$/, '')
+    const bookmark = menu[key]
+    if (! bookmark) {
       return
     }
-    chrome.bookmarks.get(bookmarkId, ([bookmark]) => {
-      chrome.tabs.update(undefined, { url: bookmark.url })
-    })
+    chrome.tabs.update(undefined, { url: bookmark.content.url })
   })
 }
 
