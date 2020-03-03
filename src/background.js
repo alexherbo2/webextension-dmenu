@@ -82,17 +82,18 @@ const getTabMenu = () => {
 }
 
 const getBookmarkMenu = () => {
-  return new Promise(async (resolve, reject) => {
-    const bookmarks = await getBookmarks()
-    const menu = {}
-    for (const bookmark of bookmarks) {
-      const bookmarks = bookmark.leaves()
+  return new Promise((resolve, reject) => {
+    chrome.bookmarks.search({}, (bookmarks) => {
+      const menu = {}
       for (const bookmark of bookmarks) {
-        const key = `${bookmark.content.title} ${bookmark.content.url}`
+        if (bookmark.children) {
+          continue
+        }
+        const key = `${bookmark.title} ${bookmark.url}`
         menu[key] = bookmark
       }
-    }
-    resolve(menu)
+      resolve(menu)
+    })
   })
 }
 
@@ -105,26 +106,6 @@ const getHistoryMenu = () => {
         menu[key] = item
       }
       resolve(menu)
-    })
-  })
-}
-
-// Bookmarks ───────────────────────────────────────────────────────────────────
-
-const getBookmarks = () => {
-  return new Promise((resolve, reject) => {
-    chrome.bookmarks.getTree((bookmarks) => {
-      bookmarks = bookmarks.map((bookmark) => {
-        return Node.parse(bookmark, (bookmark) => ({
-          id: bookmark.id,
-          content: {
-            url: bookmark.url,
-            title: bookmark.title
-          },
-          nodes: bookmark.children || []
-        }))
-      })
-      resolve(bookmarks)
     })
   })
 }
@@ -183,7 +164,7 @@ commands['open-bookmark'] = async () => {
   if (! bookmark) {
     return
   }
-  chrome.tabs.update(undefined, { url: bookmark.content.url })
+  chrome.tabs.update(undefined, { url: bookmark.url })
 }
 
 // Search history

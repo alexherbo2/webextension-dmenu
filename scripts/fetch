@@ -10,6 +10,5 @@ fetch() {
 mkdir -p packages
 cd packages
 
-fetch https://github.com/alexherbo2/node.js/raw/master/src/node.js
 fetch https://suckless.org/logo.svg suckless.svg
 fetch https://i.imgur.com/aSw7snN.png suckless.png

@@ -46,7 +46,6 @@
   },
   "background": {
     "scripts": [
-      "packages/node.js",
       "src/background.js"
     ],
     "persistent": false
