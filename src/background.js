@@ -41,6 +41,33 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 
 // dmenu ───────────────────────────────────────────────────────────────────────
 
+// dmenu
+const dmenu = (id, menu) => {
+  return new Promise((resolve, reject) => {
+    const input = Object.keys(menu).join('\n')
+    shell.port.postMessage({
+      id,
+      input,
+      command: settings.dmenu.command,
+      arguments: settings.dmenu.arguments
+    })
+    shell.port.onMessage.addListener((response) => {
+      if (response.id !== id) {
+        reject(response.id)
+      } else {
+        const keys = response.output.split('\n')
+        const results = keys.flatMap((key) => {
+          const item = menu[key]
+          return item
+            ? [item]
+            : []
+        })
+        resolve(results)
+      }
+    })
+  })
+}
+
 const getTabMenu = () => {
   return new Promise((resolve, reject) => {
     chrome.tabs.query({}, (tabs) => {
@@ -120,104 +147,52 @@ const commands = {}
 // Tab search
 commands['tab-search'] = async () => {
   const menu = await getTabMenu()
-  const input = Object.keys(menu).join('\n')
-  shell.port.postMessage({
-    id: 'tab-search',
-    input,
-    command: settings.dmenu.command,
-    arguments: settings.dmenu.arguments
-  })
-  shell.port.onMessage.addListener((response) => {
-    if (response.id !== 'tab-search') {
-      return
-    }
-    const key = response.output.replace(/\n$/, '')
-    const tab = menu[key]
-    if (! tab) {
-      return
-    }
-    // Does not affect whether the window is focused
-    chrome.tabs.update(tab.id, { active: true })
-    chrome.windows.update(tab.windowId, { focused: true })
-  })
+  const [tab] = await dmenu('tab-search', menu)
+  if (! tab) {
+    return
+  }
+  // Does not affect whether the window is focused
+  chrome.tabs.update(tab.id, { active: true })
+  chrome.windows.update(tab.windowId, { focused: true })
 }
 
 // Bring tab
 commands['bring-tab'] = async () => {
   const menu = await getTabMenu()
-  const input = Object.keys(menu).join('\n')
-  shell.port.postMessage({
-    id: 'bring-tab',
-    input,
-    command: settings.dmenu.command,
-    arguments: settings.dmenu.arguments
-  })
-  shell.port.onMessage.addListener((response) => {
-    if (response.id !== 'bring-tab') {
-      return
-    }
-    const key = response.output.replace(/\n$/, '')
-    const targetTab = menu[key]
-    if (! targetTab) {
-      return
-    }
-    chrome.tabs.query({ currentWindow: true, active: true }, ([currentTab]) => {
-      // Handle pinned tabs
-      chrome.tabs.update(targetTab.id, { pinned: currentTab.pinned })
-      const rightTabIndex =
-        targetTab.windowId === currentTab.windowId &&
-        targetTab.index < currentTab.index
-          ? currentTab.index
-          : currentTab.index + 1
-      chrome.tabs.move(targetTab.id, { windowId: currentTab.windowId, index: rightTabIndex })
-    })
+  const [targetTab] = await dmenu('bring-tab', menu)
+  if (! targetTab) {
+    return
+  }
+  chrome.tabs.query({ currentWindow: true, active: true }, ([currentTab]) => {
+    // Handle pinned tabs
+    chrome.tabs.update(targetTab.id, { pinned: currentTab.pinned })
+    const rightTabIndex =
+      targetTab.windowId === currentTab.windowId &&
+      targetTab.index < currentTab.index
+        ? currentTab.index
+        : currentTab.index + 1
+    chrome.tabs.move(targetTab.id, { windowId: currentTab.windowId, index: rightTabIndex })
   })
 }
 
 // Open bookmark
 commands['open-bookmark'] = async () => {
   const menu = await getBookmarkMenu()
-  const input = Object.keys(menu).join('\n')
-  shell.port.postMessage({
-    id: 'open-bookmark',
-    input,
-    command: settings.dmenu.command,
-    arguments: settings.dmenu.arguments
-  })
-  shell.port.onMessage.addListener((response) => {
-    if (response.id !== 'open-bookmark') {
-      return
-    }
-    const key = response.output.replace(/\n$/, '')
-    const bookmark = menu[key]
-    if (! bookmark) {
-      return
-    }
-    chrome.tabs.update(undefined, { url: bookmark.content.url })
-  })
+  const [bookmark] = await dmenu('open-bookmark', menu)
+  if (! bookmark) {
+    return
+  }
+  chrome.tabs.update(undefined, { url: bookmark.content.url })
 }
 
 // Search history
 commands['search-history'] = async () => {
   const menu = await getHistoryMenu()
-  const input = Object.keys(menu).join('\n')
-  shell.port.postMessage({
-    id: 'search-history',
-    input,
-    command: settings.dmenu.command,
-    arguments: settings.dmenu.arguments
-  })
-  shell.port.onMessage.addListener((response) => {
-    if (response.id !== 'search-history') {
-      return
-    }
-    const key = response.output.replace(/\n$/, '')
-    const historyItem = menu[key]
-    if (! historyItem) {
-      return
-    }
-    chrome.tabs.update(undefined, { url: historyItem.url })
-  })
+  const [historyItem] = await dmenu('search-history', menu)
+  if (! historyItem) {
+    return
+  }
+  chrome.tabs.update(undefined, { url: historyItem.url })
 }
 
 // External ────────────────────────────────────────────────────────────────────
