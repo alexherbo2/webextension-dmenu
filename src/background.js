@@ -159,19 +159,20 @@ commands['tab-search'] = async () => {
 // Bring tab
 commands['bring-tab'] = async () => {
   const menu = await getTabMenu()
-  const [targetTab] = await dmenu('bring-tab', menu)
-  if (! targetTab) {
+  const targetTabs = await dmenu('bring-tab', menu)
+  if (targetTabs.length === 0) {
     return
   }
+  const targetTabIds = targetTabs.map((tab) => tab.id)
   chrome.tabs.query({ currentWindow: true, active: true }, ([currentTab]) => {
     // Handle pinned tabs
-    chrome.tabs.update(targetTab.id, { pinned: currentTab.pinned })
-    const rightTabIndex =
-      targetTab.windowId === currentTab.windowId &&
-      targetTab.index < currentTab.index
-        ? currentTab.index
-        : currentTab.index + 1
-    chrome.tabs.move(targetTab.id, { windowId: currentTab.windowId, index: rightTabIndex })
+    for (const tab of targetTabs) {
+      chrome.tabs.update(tab.id, { pinned: currentTab.pinned })
+      chrome.tabs.move(tab.id, { index: -1 })
+    }
+    chrome.tabs.get(currentTab.id, (currentTab) => {
+      chrome.tabs.move(targetTabIds, { windowId: currentTab.windowId, index: currentTab.index + 1 })
+    })
   })
 }
 
