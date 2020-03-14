@@ -146,13 +146,13 @@ commands['bring-tab'] = async () => {
   }
   const targetTabIds = targetTabs.map((tab) => tab.id)
   chrome.tabs.query({ currentWindow: true, active: true }, ([currentTab]) => {
-    // Handle pinned tabs
-    for (const tab of targetTabs) {
-      chrome.tabs.update(tab.id, { pinned: currentTab.pinned })
-      chrome.tabs.move(tab.id, { index: -1 })
-    }
-    chrome.tabs.get(currentTab.id, (currentTab) => {
-      chrome.tabs.move(targetTabIds, { windowId: currentTab.windowId, index: currentTab.index + 1 })
+    const pinned = currentTab.pinned
+    // Issue: Moving a tab to another window does not preserve the pinned state.
+    chrome.tabs.move(targetTabIds, { windowId: currentTab.windowId, index: -1 }, (tabs) => {
+      for (const tabId of targetTabIds) {
+        chrome.tabs.update(tabId, { pinned })
+      }
+      chrome.tabs.move(targetTabIds, { index: currentTab.index + 1 })
     })
   })
 }
