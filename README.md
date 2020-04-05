@@ -154,6 +154,6 @@ dmenu.send('tab-search')
 
 You can find some examples in [Krabby].
 
-[Krabby]: https://krabby.netlify.com
+[Krabby]: https://krabby.netlify.app
 
 See the [source](src) for a complete reference.
