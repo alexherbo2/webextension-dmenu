@@ -1,13 +1,14 @@
-# [dmenu] for [Chrome] and [Firefox]
+# [dmenu] for [Chrome] and [Firefox] – [WebExtensions]
 
 [dmenu]: https://tools.suckless.org/dmenu/
 [Chrome]: https://google.com/chrome/
 [Firefox]: https://mozilla.org/firefox/
+[WebExtensions]: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions
 
 Tab search, selection and beyond with a [dmenu] filter program.
 
-[![chrome-dmenu](https://img.youtube.com/vi_webp/tgrmss3u2aE/maxresdefault.webp)](https://youtube.com/playlist?list=PLdr-HcjEDx_nLeC2_aQwpTQrWZ1un1nAZ "YouTube – chrome-dmenu")
-[![YouTube Play Button](https://www.iconfinder.com/icons/317714/download/png/16)](https://youtube.com/playlist?list=PLdr-HcjEDx_nLeC2_aQwpTQrWZ1un1nAZ) · [chrome-dmenu](https://youtube.com/playlist?list=PLdr-HcjEDx_nLeC2_aQwpTQrWZ1un1nAZ)
+[![webextension-dmenu](https://img.youtube.com/vi_webp/tgrmss3u2aE/maxresdefault.webp)](https://youtube.com/playlist?list=PLdr-HcjEDx_nLeC2_aQwpTQrWZ1un1nAZ "YouTube – webextension-dmenu")
+[![YouTube Play Button](https://www.iconfinder.com/icons/317714/download/png/16)](https://youtube.com/playlist?list=PLdr-HcjEDx_nLeC2_aQwpTQrWZ1un1nAZ) · [webextension-dmenu](https://youtube.com/playlist?list=PLdr-HcjEDx_nLeC2_aQwpTQrWZ1un1nAZ)
 
 ## Dependencies
 
@@ -21,7 +22,7 @@ Tab search, selection and beyond with a [dmenu] filter program.
 
 - [Shell]
 
-[Shell]: https://github.com/alexherbo2/chrome-shell
+[Shell]: https://github.com/alexherbo2/webextension-shell
 
 ## Installation
 
