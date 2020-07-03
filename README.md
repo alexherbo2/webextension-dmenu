@@ -5,6 +5,8 @@
 [Firefox]: https://mozilla.org/firefox/
 [WebExtensions]: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions
 
+<img src="https://github.com/FortAwesome/Font-Awesome/raw/master/svgs/solid/window-restore.svg" height="16" align="right">
+
 Tab search, selection and beyond with a [dmenu] filter program.
 
 [![webextension-dmenu](https://img.youtube.com/vi_webp/tgrmss3u2aE/maxresdefault.webp)](https://youtube.com/playlist?list=PLdr-HcjEDx_nLeC2_aQwpTQrWZ1un1nAZ "YouTube – webextension-dmenu")
