@@ -8,7 +8,7 @@ firefox: fetch
 
 icons: fetch
 	mkdir -p build
-	inkscape --without-gui packages/suckless.svg --export-png build/suckless.png --export-width 128 --export-height 128
+	inkscape --without-gui packages/window-restore.svg --export-png build/window-restore.png --export-width 128 --export-height 128
 
 fetch:
 	scripts/fetch
