@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "dmenu",
-  "description": "Tab search, selection and beyond with a dmenu filter program",
+  "description": "Tab search, selection and beyond with a dynamic menu program",
   "version": "0.1.0",
   "permissions": [
     "tabs",
