@@ -94,36 +94,41 @@ Default:
 ``` json
 {
   "command": "dmenu",
-  "arguments": ["-l", "20", "-i"]
+  "arguments": []
 }
 ```
 
 **Example** – Run with [fzf] and [Alacritty]:
 
-``` json
-{
-  "command": "sh",
-  "arguments": [
-    "-c",
-    "
-      # Create IO files
-      state=$(mktemp -d)
-      input=$state/input
-      output=$state/output
-      trap 'rm -Rf \"$state\"' EXIT
-      # Get input from /dev/stdin
-      cat > \"$input\"
-      # Run fzf with Alacritty
-      alacritty --class 'Alacritty · Floating' --command sh -c 'fzf < \"$1\" > \"$2\"' -- \"$input\" \"$output\"
-      # Write output to /dev/stdout
-      cat \"$output\"
-      # Exit code
-      if test ! -s \"$output\"; then
-        exit 1
-      fi
-    "
-  ]
-}
+`~/.local/bin/dmenu`
+
+``` sh
+#!/bin/sh
+
+# A drop-in dmenu replacement using fzf with Alacritty.
+
+# – fzf (https://github.com/junegunn/fzf)
+# – Alacritty (https://github.com/alacritty/alacritty)
+
+# Create IO files
+state=$(mktemp -d)
+input=$state/input
+output=$state/output
+trap 'rm -Rf "$state"' EXIT
+
+# Get input
+cat > "$input"
+
+# Run fzf with Alacritty
+alacritty --class 'Alacritty · Floating' --command sh -c 'fzf < "$1" > "$2"' -- "$input" "$output"
+
+# Write output
+cat "$output"
+
+# Exit code
+if test ! -s "$output"; then
+  exit 1
+fi
 ```
 
 [fzf]: https://github.com/junegunn/fzf

@@ -24,7 +24,7 @@ const settings = {}
 // Pipe tabs through the given external filter program.
 settings.dmenu = {
   command: 'dmenu',
-  arguments: ['-l', '20', '-i']
+  arguments: []
 }
 
 // Sync settings
