@@ -8,7 +8,7 @@ firefox: fetch
 
 icons: fetch
 	mkdir -p build
-	inkscape --without-gui packages/window-restore.svg --export-png build/window-restore.png --export-width 128 --export-height 128
+	inkscape packages/window-restore.svg --export-filename build/window-restore.png --export-width 128 --export-height 128
 
 fetch:
 	scripts/fetch
