@@ -15,10 +15,8 @@ Tab search, selection and beyond with a dynamic menu program.
 ## Dependencies
 
 - [jq]
-- [Zip]
 
 [jq]: https://stedolan.github.io/jq/
-[Zip]: http://infozip.sourceforge.net/Zip.html
 
 ###### Extensions
 
