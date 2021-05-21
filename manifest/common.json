@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "dmenu",
   "description": "Tab search, selection and beyond with a dynamic menu program",
   "version": "0.1.0",
@@ -37,7 +37,7 @@
       }
     }
   },
-  "browser_action": {
+  "action": {
     "default_popup": "src/pages/options/index.html"
   },
   "options_ui": {
@@ -45,10 +45,7 @@
     "open_in_tab": false
   },
   "background": {
-    "scripts": [
-      "src/background.js"
-    ],
-    "persistent": false
+    "service_worker": "background.js"
   },
   "icons": {
     "16": "packages/window-restore.png",
