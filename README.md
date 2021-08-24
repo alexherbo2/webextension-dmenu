@@ -9,8 +9,8 @@
 
 Tab search, selection and beyond with a dynamic menu program.
 
-[![webextension-dmenu](https://img.youtube.com/vi_webp/tgrmss3u2aE/maxresdefault.webp)](https://youtube.com/playlist?list=PLdr-HcjEDx_nLeC2_aQwpTQrWZ1un1nAZ "YouTube – webextension-dmenu")
-[![YouTube Play Button](https://www.iconfinder.com/icons/317714/download/png/16)](https://youtube.com/playlist?list=PLdr-HcjEDx_nLeC2_aQwpTQrWZ1un1nAZ) · [webextension-dmenu](https://youtube.com/playlist?list=PLdr-HcjEDx_nLeC2_aQwpTQrWZ1un1nAZ)
+[![Thumbnail](https://img.youtube.com/vi_webp/tgrmss3u2aE/maxresdefault.webp)](https://youtube.com/playlist?list=PLdr-HcjEDx_nLeC2_aQwpTQrWZ1un1nAZ)
+[![Button](https://www.iconfinder.com/icons/317714/download/png/16)](https://youtube.com/playlist?list=PLdr-HcjEDx_nLeC2_aQwpTQrWZ1un1nAZ)
 
 ## Dependencies
 
