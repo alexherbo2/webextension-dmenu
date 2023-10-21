@@ -44,9 +44,6 @@
     "page": "src/pages/options/index.html",
     "open_in_tab": false
   },
-  "background": {
-    "service_worker": "background.js"
-  },
   "icons": {
     "16": "packages/window-restore.png",
     "48": "packages/window-restore.png",
